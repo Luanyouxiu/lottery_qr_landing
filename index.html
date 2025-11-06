@@ -151,8 +151,8 @@
       window.scrollTo(0,0);
     }
 
-    const qrImg=document.getElementById('qrImg');
-    qrImg.addEventListener('click',()=>show(lotteryPage));
+    // const qrImg=document.getElementById('qrImg');
+    // qrImg.addEventListener('click',()=>show(lotteryPage));
     document.getElementById('enterBtn').addEventListener('click',e=>{e.preventDefault();show(lotteryPage)});
 
     // 抽奖逻辑
@@ -215,7 +215,7 @@
     copyLink.addEventListener('click',()=>{
       const url=location.href;
       navigator.clipboard.writeText(url);
-      alert('分享链接已复制，一刻也别停！快发霍霍好友！');
+      alert('分享链接已复制，去快去霍霍你的列表好友！');
     });
 
     // 模拟好友帮助增加次数（可扩展为实际参数检测）
