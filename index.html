@@ -1,57 +1,49 @@
-<!--
-单文件抽奖页面（HTML）
-说明：
-- 将此文件保存为 lottery_qr_landing.html 后在浏览器打开即可预览（支持本地或放到服务器）。
-- 把你的二维码图片命名为 `qrcode.png` 放在同一目录，或在下面的 <img id="qrImg"> 中替换 src 为你的二维码 URL。
-- 页面包含：主宣传页（带二维码），扫码/点击二维码进入抽奖页，抽奖页展示奖项并模拟抽奖动画与结果弹窗。
-- 如需我把你提供的二维码/奖品图片内嵌到页面里，直接把图片发来我可替你替换。
--->
-
 <!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>星颜国际 — 年终抽奖</title>
+  <title>备战2028奥运专业团队特供· 羽毛球技能抽奖</title>
   <style>
-    :root{--red:#b90f0f;--soft:#f7f0ef;--gold:#d8a24f}
-    *{box-sizing:border-box;font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", Arial}
-    body{margin:0;background:linear-gradient(180deg,#fff 0%, #fff 55%, #f3f1ef 55%);color:#222}
+    :root{--red:#0f6cb9;--soft:#f3f7fb;--gold:#f1b431}
+    *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","PingFang SC","Microsoft YaHei",Arial}
+    body{margin:0;background:linear-gradient(180deg,#fff 0%,#fff 55%,#eef4f9 55%);color:#222}
 
-    /* Landing */
-    .hero{background:linear-gradient(0deg,var(--red),#a61010);color:#fff;padding:22px 16px 36px}
+    .hero{background:linear-gradient(0deg,var(--red),#084c84);color:#fff;padding:22px 16px 36px}
     .container{max-width:960px;margin:0 auto}
     .top-row{display:flex;gap:16px;align-items:center}
     .left{flex:1}
     .brand{font-size:20px;font-weight:700}
-    .title{font-size:34px;font-weight:800;margin:8px 0}
+    .title{font-size:32px;font-weight:800;margin:8px 0}
     .card{background:#fff;border-radius:10px;padding:14px;color:#333}
     .price{font-size:42px;color:var(--red);font-weight:800}
     .qr-wrap{width:220px;flex:0 0 220px;text-align:center}
     .qr{width:160px;height:160px;border-radius:8px;background:#fff;padding:10px;display:inline-block}
     .qr img{width:100%;height:100%;object-fit:contain}
-    .scan-tip{margin-top:8px;color:#ffd9d9}
+    .scan-tip{margin-top:8px;color:#dcecff}
 
-    /* Button */
     .btn{display:inline-block;background:var(--gold);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;text-decoration:none}
 
-    /* Lottery page */
+    /* 分享页 */
+    .share{display:none;text-align:center;padding:40px 20px}
+    .share h2{color:var(--red)}
+    .share button{margin-top:12px}
+
+    /* 抽奖页 */
     .lottery{display:none;padding:18px}
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:760px;margin:8px auto}
-    .prize{background:linear-gradient(180deg,#fff,#fdecea);border-radius:12px;padding:12px;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+    .prize{background:linear-gradient(180deg,#fff,#e9f2fd);border-radius:12px;padding:12px;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
     .prize img{width:100%;height:100px;object-fit:contain}
     .prize .label{margin-top:8px;font-weight:700}
 
     .center{display:flex;flex-direction:column;align-items:center;justify-content:center}
     .spin-btn{margin-top:10px;padding:14px 28px;background:var(--red);color:#fff;border:none;border-radius:12px;font-size:18px;font-weight:800}
 
-    /* Modal */
     .modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:all .2s}
     .modal.open{opacity:1;pointer-events:auto}
     .modal-card{background:#fff;padding:22px;border-radius:12px;max-width:320px;text-align:center}
     .modal-card .prize-name{font-size:20px;font-weight:800;margin-top:10px}
 
-    /* small */
     @media(max-width:600px){.top-row{flex-direction:column}.qr-wrap{width:100%}.qr{margin-top:10px}}
   </style>
 </head>
@@ -60,19 +52,21 @@
     <div class="container">
       <div class="top-row">
         <div class="left">
-          <div class="brand">颜小灵 · 星颜国际</div>
-          <div class="title">年终百万补贴来袭 — 一起打造素颜灯泡肌</div>
-          <div style="margin-top:8px;color:#ffe8e8;max-width:680px">限时心动价 ¥299，每人限购1单，下单即送抽奖机会，扫码或点击右侧二维码进入抽奖页面。</div>
+          <div class="brand">备战2028奥运专业团队</div>
+          <div class="title">羽毛球装备抽奖 · 技能随机掉落</div>
+          <div style="margin-top:8px;color:#e3f2ff;max-width:680px">
+            点击下方按钮，即可解锁神秘技能！<br>
+            扫码或点击右侧二维码进入shopping，快去邀请朋友享受十折优惠！
+          </div>
           <div style="margin-top:12px">
-            <a class="btn" href="#" id="enterBtn">立即抢购 / 进入抽奖</a>
+            <a class="btn" href="#" id="enterBtn">进入抽奖</a>
           </div>
         </div>
         <div class="qr-wrap">
           <div class="card">
-            <div style="font-weight:800;margin-bottom:8px">心动体验 ¥299</div>
-            <div class="qr" title="长按识别二维码或点击进入抽奖">
-              <!-- 请把你的二维码替换为 qrcode.png 或替换下面的 src -->
-              <img id="qrImg" src="qrcode.png" alt="二维码（请替换为真实二维码）">
+            <div style="font-weight:800;margin-bottom:8px">扫码加入 · 不免费购物</div>
+            <div class="qr" title="长按识别二维码或点击进入shopping">
+              <img id="qrImg" src="https://l.ead.me/gogogo">
             </div>
             <div class="scan-tip">长按二维码进入活动或点击二维码</div>
           </div>
@@ -81,14 +75,27 @@
     </div>
   </div>
 
-  <!-- Lottery page -->
+  <!-- 分享页 -->
+  <div class="share container" id="sharePage">
+    <h2>霍霍朋友，获得额外抽奖机会！</h2>
+    <p>分享你的专属链接给好友，好友点击进入后，你将获得1次额外抽奖机会。</p>
+    <button class="btn" id="copyLink">复制我的分享链接</button>
+    <div style="margin-top:20px"><a href="#" id="toLottery" class="btn">返回抽奖页面</a></div>
+  </div>
+
+  <!-- 抽奖页 -->
   <div class="lottery container" id="lotteryPage">
-    <h2 style="text-align:center;color:var(--red);">幸运抽奖 · 奖品区</h2>
-    <p style="text-align:center;color:#666">下单即可抽奖，大奖随机抽取！</p>
+    <h2 style="text-align:center;color:var(--red);">羽毛球神仙技能抽奖区</h2>
+    <p style="text-align:center;color:#666">抽出属于你的“神技”！</p>
     <div class="grid" id="prizeGrid"></div>
     <div class="center">
       <button class="spin-btn" id="spinBtn">立即抽奖</button>
-      <div style="margin-top:8px;color:#666">剩余抽奖次数：<span id="chance">1</span></div>
+      <div style="margin-top:8px;color:#666">
+        剩余抽奖次数：<span id="chance">1</span> 次
+      </div>
+      <div style="margin-top:10px">
+        <a href="#" id="shareBtn" class="btn">霍霍朋友 +1次</a>
+      </div>
     </div>
   </div>
 
@@ -104,112 +111,124 @@
   </div>
 
   <script>
-    // 奖品数据（可以替换图片与名称）
+    // 羽毛球“奖品”（技能）
     const prizes = [
-      {name: '苹果17手机', value: 5999, img: ''},
-      {name: '玛莎世家手表', value: 3800, img: ''},
-      {name: '888元红包', value: 888, img: ''},
-      {name: '298元眼霜', value: 298, img: ''},
-      {name: '颜小灵气垫', value: 0, img: ''},
-      {name: '幸运红包', value: 0, img: ''},
-      {name: '¥198 面膜1盒', value: 198, img: ''},
-      {name: '¥499 护肤套装', value: 499, img: ''},
-      {name: '参与奖 优惠券', value: 0, img: ''}
+      {name:'20米跳杀技术', value:0},
+      {name:'网前滚网神技', value:0},
+      {name:'狂偷后场不出界', value:0},
+      {name:'发球永不出界 Buff', value:0},
+      {name:'接杀稳如狗模式', value:0},
+      {name:'双打吵架免疫光环', value:0},
+      {name:'三局两胜必赢定律', value:0},
+      {name:'扣杀瞬间变脸无影脚', value:0},
+      {name:'神秘大奖 · 羽毛球拍一支', value:499}
     ];
 
-    // 渲染奖品格子
+    // 渲染格子
     const grid = document.getElementById('prizeGrid');
     function renderGrid(){
       grid.innerHTML = '';
-      prizes.forEach((p, i)=>{
-        const div = document.createElement('div');
-        div.className = 'prize';
-        div.innerHTML = `<div style=\"height:100px;display:flex;align-items:center;justify-content:center\">${p.img?'<img src="'+p.img+'">':'<div style=\\"font-size:28px;color:var(--red);font-weight:800\\">'+(p.value?('¥'+p.value):'奖')+'</div>'}</div><div class=\"label\">${p.name}</div>`;
+      prizes.forEach(p=>{
+        const div=document.createElement('div');
+        div.className='prize';
+        div.innerHTML=`<div style="height:100px;display:flex;align-items:center;justify-content:center">
+          <div style="font-size:22px;color:var(--red);font-weight:800;text-align:center">${p.name.length>8?p.name.slice(0,8)+'…':p.name}</div>
+        </div><div class="label">${p.name}</div>`;
         grid.appendChild(div);
       });
     }
     renderGrid();
 
-    // 点击二维码或按钮进抽奖页
-    const qrImg = document.getElementById('qrImg');
-    const lotteryPage = document.getElementById('lotteryPage');
-    const hero = document.querySelector('.hero');
-    function enterLottery(){
-      hero.style.display = 'none';
-      lotteryPage.style.display = 'block';
+    // 页面控制
+    const hero=document.querySelector('.hero');
+    const sharePage=document.getElementById('sharePage');
+    const lotteryPage=document.getElementById('lotteryPage');
+    function show(page){
+      hero.style.display='none';
+      sharePage.style.display='none';
+      lotteryPage.style.display='none';
+      page.style.display='block';
       window.scrollTo(0,0);
     }
-    qrImg.addEventListener('click', enterLottery);
-    document.getElementById('enterBtn').addEventListener('click', (e)=>{e.preventDefault();enterLottery()});
+
+    const qrImg=document.getElementById('qrImg');
+    qrImg.addEventListener('click',()=>show(lotteryPage));
+    document.getElementById('enterBtn').addEventListener('click',e=>{e.preventDefault();show(lotteryPage)});
 
     // 抽奖逻辑
-    let chances = 1; // 可抽次数
-    document.getElementById('chance').textContent = chances;
-    const spinBtn = document.getElementById('spinBtn');
-    const modal = document.getElementById('modal');
-    const modalPrizeName = document.getElementById('modalPrizeName');
-    const modalPrizeImg = document.getElementById('modalPrizeImg');
-    const closeModal = document.getElementById('closeModal');
+    let chances=1;
+    const chanceEl=document.getElementById('chance');
+    const spinBtn=document.getElementById('spinBtn');
+    const modal=document.getElementById('modal');
+    const modalPrizeName=document.getElementById('modalPrizeName');
+    const modalPrizeImg=document.getElementById('modalPrizeImg');
+    const closeModal=document.getElementById('closeModal');
+    chanceEl.textContent=chances;
 
     function randomPrizeIndex(){
-      // 自定义概率：这里示例简单权重，可根据需要改
-      // 大奖（手机、手表）概率较低
-      const weights = [1,1,5,8,10,15,12,10,38];
-      const total = weights.reduce((a,b)=>a+b,0);
-      let r = Math.random()*total;
-      for(let i=0;i<weights.length;i++){
-        r -= weights[i];
-        if(r<=0) return i;
-      }
+      const weights=[1,3,5,8,8,10,10,12,2];
+      const total=weights.reduce((a,b)=>a+b,0);
+      let r=Math.random()*total;
+      for(let i=0;i<weights.length;i++){r-=weights[i];if(r<=0)return i;}
       return weights.length-1;
     }
 
-    function showModal(prize){
-      modalPrizeName.textContent = prize.name + (prize.value?(' — ¥'+prize.value):'');
-      modalPrizeImg.innerHTML = prize.img?(`<img src="${prize.img}" style=\"max-width:100%;max-height:100%\">`):('<div style="font-size:36px;color:var(--red);font-weight:900">'+(prize.value?('¥'+prize.value):'🎁')+'</div>');
-      modal.classList.add('open');
-    }
-
     function spinAnimation(finalIndex){
-      // 简单的高亮动画：依次高亮格子
-      const cells = Array.from(document.querySelectorAll('.prize'));
-      let idx = 0; let rounds = 3; let total = rounds*cells.length + finalIndex;
-      let speed = 120; // 初始速度(ms)
-      return new Promise((resolve)=>{
-        const timer = setInterval(()=>{
-          cells.forEach((c,i)=>c.style.boxShadow='0 6px 18px rgba(0,0,0,0.08)');
-          cells[idx % cells.length].style.boxShadow = '0 0 0 4px rgba(217,15,15,0.15)';
+      const cells=Array.from(document.querySelectorAll('.prize'));
+      let idx=0;let rounds=3;let total=rounds*cells.length+finalIndex;
+      let speed=120;
+      return new Promise(resolve=>{
+        const timer=setInterval(()=>{
+          cells.forEach(c=>c.style.boxShadow='0 6px 18px rgba(0,0,0,0.08)');
+          cells[idx%cells.length].style.boxShadow='0 0 0 4px rgba(15,108,185,0.2)';
           idx++;
-          if(idx>total){
-            clearInterval(timer);
-            resolve();
-          }
-          // 加速减速
-        }, Math.max(30, speed -= 1.5));
+          if(idx>total){clearInterval(timer);resolve();}
+          speed-=1.2;
+        },Math.max(30,speed));
       });
     }
 
-    spinBtn.addEventListener('click', async ()=>{
-      if(chances<=0){alert('没有剩余抽奖次数');return}
-      spinBtn.disabled = true; spinBtn.textContent = '抽奖进行中...';
-      const index = randomPrizeIndex();
+    async function spin(){
+      if(chances<=0){alert('抽奖次数不足，请去霍霍朋友！');return;}
+      spinBtn.disabled=true;spinBtn.textContent='抽奖中...';
+      const index=randomPrizeIndex();
       await spinAnimation(index);
-      const prize = prizes[index];
-      showModal(prize);
+      const prize=prizes[index];
+      modalPrizeName.textContent=prize.name+(prize.value?(' — ¥'+prize.value):'');
+      modalPrizeImg.innerHTML='<div style="font-size:36px;color:var(--red);font-weight:900">🏸</div>';
+      modal.classList.add('open');
       chances--;
-      document.getElementById('chance').textContent = chances;
-      spinBtn.disabled = false; spinBtn.textContent = '立即抽奖';
+      chanceEl.textContent=chances;
+      spinBtn.disabled=false;spinBtn.textContent='立即抽奖';
+    }
+
+    spinBtn.addEventListener('click',spin);
+    closeModal.addEventListener('click',()=>modal.classList.remove('open'));
+    modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
+
+    // 分享页
+    const shareBtn=document.getElementById('shareBtn');
+    const toLottery=document.getElementById('toLottery');
+    const copyLink=document.getElementById('copyLink');
+    shareBtn.addEventListener('click',e=>{e.preventDefault();show(sharePage)});
+    toLottery.addEventListener('click',e=>{e.preventDefault();show(lotteryPage)});
+    copyLink.addEventListener('click',()=>{
+      const url=location.href;
+      navigator.clipboard.writeText(url);
+      alert('分享链接已复制，一刻也别停！快发霍霍好友！');
     });
 
-    closeModal.addEventListener('click', ()=>{modal.classList.remove('open');});
+    // 模拟好友帮助增加次数（可扩展为实际参数检测）
+    if(location.search.includes('fromFriend')){
+      chances++;
+      chanceEl.textContent=chances;
+      alert('冤种朋友已上钩，你获得了1次额外抽奖机会！');
+    }
 
-    // 点击空白关闭模态
-    modal.addEventListener('click',(e)=>{if(e.target===modal) modal.classList.remove('open')});
-
-    // 初始：若找不到 qrcode.png，显示占位文字
+    // 若无二维码，显示占位图
     (function checkQR(){
-      const img = qrImg;
-      img.onerror = ()=>{ img.src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><rect width="100%" height="100%" fill="white"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="12" fill="#ccc">请替换为真实二维码</text></svg>' }
+      const img=qrImg;
+      img.onerror=()=>{img.src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><rect width="100%" height="100%" fill="white"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="12" fill="#ccc">请替换为真实二维码</text></svg>'}
     })();
   </script>
 </body>
