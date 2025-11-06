@@ -95,6 +95,10 @@
       </div>
       <div style="margin-top:10px">
         <a href="#" id="shareBtn" class="btn">霍霍朋友 +1次</a>
+      <div style="margin-top:16px">
+        <a href="#" id="backHomeBtn" class="btn" style="background:#666">返回主页</a>
+</div>
+
       </div>
     </div>
   </div>
@@ -216,6 +220,16 @@
       const url=location.href;
       navigator.clipboard.writeText(url);
       alert('分享链接已复制，去快去霍霍你的列表好友！');
+    });
+    
+    // 返回主页按钮
+    const backHomeBtn = document.getElementById('backHomeBtn');
+    backHomeBtn.addEventListener('click', e => {
+      e.preventDefault();
+      hero.style.display = 'block';
+      sharePage.style.display = 'none';
+      lotteryPage.style.display = 'none';
+      window.scrollTo(0, 0);
     });
 
     // 模拟好友帮助增加次数（可扩展为实际参数检测）
